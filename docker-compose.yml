@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  dextrading-cms:
+    container_name: dextrading-cms
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # args:
+      #   VITE_BASE_URL: http://95.81.93.198:3000  # Passed as a build arg
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
